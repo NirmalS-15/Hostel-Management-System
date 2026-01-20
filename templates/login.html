@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Hostel Management System</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-body">
+
+    <!-- Floating Background Icons -->
+    <div class="floating-icons">
+        <i class='bx bxs-bed'></i>
+        <i class='bx bxs-shield-alt-2'></i>
+        <i class='bx bxs-chat'></i>
+        <i class='bx bxs-user'></i>
+        <i class='bx bxs-bell'></i>
+        <i class='bx bxs-home'></i>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-wrapper">
+        <div class="login-container" data-aos="zoom-in">
+            <div class="glass-card">
+                <div class="login-header">
+                    <div class="logo-icon">
+                        <i class='bx bxs-lock-alt'></i>
+                    </div>
+                    <h2>Secure Login</h2>
+                    <p>Enter your credentials to access your portal</p>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Login Form -->
+                <form method="POST" class="login-form">
+                    <div class="input-group">
+                        <i class='bx bxs-user'></i>
+                        <input type="text" name="username" placeholder="Username" required autofocus>
+                        <div class="input-glow"></div>
+                    </div>
+                    <div class="input-group">
+                        <i class='bx bxs-lock'></i>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <div class="input-glow"></div>
+                    </div>
+
+                    <button type="submit" class="btn-login">
+                        <span>Login Now</span>
+                        <i class='bx bx-log-in-circle'></i>
+                    </button>
+                </form>
+
+                <!-- Role Hints removed -->
+                <!-- Test accounts hidden to avoid exposing credentials in production -->
+
+                <!-- Back to Home -->
+                <a href="{{ url_for('home') }}" class="back-link">
+                    <i class='bx bx-arrow-back'></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- AOS Init -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true });
+    </script>
+</body>
+</html>

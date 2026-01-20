@@ -1,0 +1,35 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "warden1",
+      "password": "warden123",
+      "role": "warden",
+      "name": "Mr. Rajesh"
+    }
+  ],
+  "matrons": [
+    {
+      "id": 1,
+      "name": "matron1",
+      "username": "matron1",
+      "password": "matron@123",
+      "contact": "9188444921"
+    }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "name": "james",
+      "email": "nirmal@gmail.com",
+      "password": "Asdf@123",
+      "room": null,
+      "has_applied": false
+    }
+  ],
+  "rooms": [],
+  "applications": [],
+  "payments": [],
+  "complaints": [],
+  "vacate_requests": []
+}

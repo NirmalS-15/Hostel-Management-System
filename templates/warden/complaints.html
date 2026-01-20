@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warden - Student Complaints</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary: #0f4c5c;
+            --accent: #e6af2e;
+            --dark: #1a1a2e;
+            --green: #27ae60;
+            --orange: #f39c12;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #16213e);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .header {
+            background: var(--primary);
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 3em;
+            letter-spacing: 2px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.6);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .complaints-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 35px;
+        }
+
+        .complaint {
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 30px;
+            border-left: 6px solid var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: 0.4s;
+        }
+        .complaint:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(230,175,46,0.3);
+        }
+
+        .complaint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .complaint-info {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .status {
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+        .pending   { background: rgba(243,156,18,0.3); color: #f39c12; }
+        .replied   { background: rgba(39,174,96,0.3); color: var(--green); }
+
+        .message, .reply {
+            background: rgba(255,255,255,0.08);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            font-size: 1.2em;
+            line-height: 1.7;
+        }
+        .message strong, .reply strong {
+            color: var(--accent);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 100px;
+            font-size: 1.8em;
+            opacity: 0.7;
+            color: var(--accent);
+        }
+
+        .back {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+        .back a {
+            display: inline-block;
+            background: transparent;
+            color: var(--accent);
+            padding: 15px 50px;
+            border: 3px solid var(--accent);
+            border-radius: 50px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+        .back a:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(230,175,46,0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Student Complaints</h1>
+    </div>
+
+    <div class="container">
+
+        {% if complaints %}
+        <div class="complaints-grid">
+            {% for c in complaints %}
+            <div class="complaint">
+                <div class="complaint-header">
+                    <div class="complaint-info">
+                        <strong>{{ c.name }}</strong> • Room {{ c.room_no }} • {{ c.date }}
+                    </div>
+                    <div class="status {{ 'pending' if c.status == 'Pending' else 'replied' }}">
+                        {{ c.status }}
+                    </div>
+                </div>
+
+                <div class="message">
+                    <strong>Complaint:</strong><br>
+                    {{ c.message }}
+                </div>
+
+                {% if c.reply %}
+                <div class="reply">
+                    <strong>Matron Reply:</strong><br>
+                    {{ c.reply }}<br>
+                    <small style="color:#ccc;">Replied on: {{ c.replied_on }}</small>
+                </div>
+                {% endif %}
+
+                <!-- NO REPLY FORM — WARDEN IS VIEW-ONLY -->
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-data">No complaints submitted yet.</p>
+        {% endif %}
+
+        <div class="back">
+            <a href="{{ url_for('warden_dashboard') }}">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

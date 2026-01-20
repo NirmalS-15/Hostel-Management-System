@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Records</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary: #0f4c5c;
+            --accent: #e6af2e;
+            --dark: #0a0e17;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #16213e);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--primary);
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 3em;
+            letter-spacing: 2px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.6);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .total-earnings {
+            background: rgba(230,175,46,0.2);
+            border: 2px solid var(--accent);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+        th {
+            background: var(--primary);
+            padding: 20px;
+            text-align: left;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        tr:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .amount { font-weight: bold; color: var(--accent); font-size: 1.4em; }
+        .paid { color: #27ae60; font-weight: bold; padding: 10px 20px; background: rgba(39,174,96,0.2); border-radius: 30px; }
+
+        .no-data {
+            text-align: center;
+            padding: 100px;
+            font-size: 1.8em;
+            opacity: 0.7;
+        }
+
+        /* BACK BUTTON — SAME AS MATRON & OTHER PAGES */
+        .back {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+        .back a {
+            display: inline-block;
+            background: transparent;
+            color: var(--accent);
+            padding: 15px 50px;
+            border: 3px solid var(--accent);
+            border-radius: 50px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+        .back a:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(230,175,46,0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Payment Records</h1>
+    </div>
+
+    <div class="container">
+        <!-- Total Earnings -->
+        {% set total = db.payments|length * 500 %}
+        <div class="total-earnings">
+            Total Earnings: ₹{{ total }} ({{ db.payments|length }} payments)
+        </div>
+
+        {% if db.payments %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Room No.</th>
+                    <th>Month & Year</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Paid On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in db.payments %}
+                <tr>
+                    <td><strong>{{ p.name }}</strong></td>
+                    <td>{{ p.room_no }}</td>
+                    <td>{{ p.month_year }}</td>
+                    <td class="amount">₹{{ p.amount }}</td>
+                    <td class="paid">{{ p.status }}</td>
+                    <td>{{ p.paid_on }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-data">No payment records found yet.</p>
+        {% endif %}
+
+        <!-- BACK BUTTON — SAME STYLE AS MATRON PAGE -->
+        <div class="back">
+            <a href="{{ url_for('warden_dashboard') }}">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

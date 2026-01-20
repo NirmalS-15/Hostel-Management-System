@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Complaint</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #0d6e71, #ff6b35); padding: 20px; }
+        .container { max-width: 700px; margin: 40px auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+        h1 { color: #0d6e71; text-align: center; }
+        textarea { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; height: 200px; font-size: 16px; }
+        button { background: #0d6e71; color: white; padding: 15px 40px; border: none; border-radius: 50px; font-size: 1.2em; cursor: pointer; margin-top: 20px; }
+        .back { display: block; text-align: center; margin-top: 20px; color: #d32f2f; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Complaint</h1>
+        <p><strong>{{ student.name }}</strong> - Room {{ student.room }}</p>
+        
+        <form method="POST">
+            <textarea name="message" placeholder="Describe your complaint..." required></textarea>
+            <br>
+            <button type="submit">Submit Complaint</button>
+        </form>
+        
+        <a href="{{ url_for('student_home') }}" class="back">Back to Home</a>
+    </div>
+</body>
+</html>

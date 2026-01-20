@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Complaints</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: linear-gradient(135deg, #0d6e71, #ff6b35); 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 1000px; 
+            margin: 60px auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3); 
+        }
+        h1 { 
+            color: #0d6e71; 
+            text-align: center; 
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .complaint {
+            background: #f8f9fa;
+            border-left: 6px solid #0d6e71;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .complaint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .complaint-info {
+            color: #0d6e71;
+            font-size: 1.1em;
+        }
+        .status {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .status.pending { 
+            background: rgba(230,175,46,0.2); 
+            color: #e67e22; 
+            border: 1px solid #f39c12;
+        }
+        .status.replied { 
+            background: rgba(39,174,96,0.2); 
+            color: #27ae60; 
+            border: 1px solid #27ae60;
+        }
+        .message {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        .message strong { color: #0d6e71; }
+        .reply {
+            background: #e8f5e8;
+            border-left: 5px solid #27ae60;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #1e7e34;
+        }
+        .reply strong { color: #27ae60; }
+        .no-data {
+            text-align: center;
+            padding: 80px 20px;
+            color: #7f8c8d;
+            font-size: 1.6em;
+        }
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-decoration: none;
+        }
+        .back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Complaints</h1>
+        <p class="subtitle">Room: {{ student.room }} | {{ student.name }}</p>
+
+        {% if complaints %}
+            {% for c in complaints %}
+            <div class="complaint">
+                <div class="complaint-header">
+                    <div class="complaint-info">
+                        Room {{ c.room_no }} • {{ c.date }}
+                    </div>
+                    <div class="status {{ 'pending' if c.status == 'Pending' else 'replied' }}">
+                        {{ c.status }}
+                    </div>
+                </div>
+
+                <div class="message">
+                    <strong>My Complaint:</strong><br>
+                    {{ c.message }}
+                </div>
+
+                {% if c.reply %}
+                <div class="reply">
+                    <strong>Warden Reply:</strong><br>
+                    {{ c.reply }}<br>
+                    <small style="opacity:0.8; color:#27ae60;">Replied on: {{ c.replied_on }}</small>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-data">No complaints submitted yet.</p>
+        {% endif %}
+
+        <a href="{{ url_for('student_home') }}" class="back">Back to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warden Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0d6e71;
+            --accent: #ff6b35;
+            --golden: #e6af2e;
+            --dark: #0a192f;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a192f, #001233);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 130px 20px 90px;
+            background: linear-gradient(rgba(13,110,113,0.95), rgba(13,110,113,0.90)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920') center/cover;
+            border-bottom: 5px solid var(--accent);
+        }
+        .hero h1 {
+            font-size: 5.2em;
+            font-weight: 800;
+            letter-spacing: 6px;
+            color: white;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        /* COMPACT STATS */
+        .stats-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 35px;
+            margin: 80px 0 100px;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.09);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 22px 35px;
+            text-align: center;
+            min-width: 180px;
+            border: 2px solid rgba(255,107,53,0.3);
+            transition: 0.4s;
+        }
+        .stat-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px rgba(255,107,53,0.3);
+        }
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: 900;
+            color: white;
+        }
+        .stat-label {
+            font-size: 1.05em;
+            color: var(--golden);
+            margin-top: 8px;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+        }
+
+        /* MODULES GRID */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .module-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 35px 50px;
+            transition: all 0.6s ease;
+            border: 2px solid rgba(255,107,53,0.2);
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        .module-card:hover {
+            transform: translateY(-20px);
+            background: rgba(255,107,53,0.12);
+            border-color: var(--accent);
+            box-shadow: 0 30px 70px rgba(255,107,53,0.35);
+        }
+
+        .module-icon {
+            font-size: 4em;
+            margin-right: 40px;
+            width: 100px;
+            text-align: center;
+            transition: 0.5s;
+        }
+        .module-card:hover .module-icon {
+            transform: scale(1.2);
+        }
+
+        .module-content h3 {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--golden);
+            margin-bottom: 10px;
+        }
+        .module-content p {
+            font-size: 1.25em;
+            opacity: 0.9;
+            line-height: 1.6;
+            color: white;
+        }
+
+        /* ICON COLORS */
+        .icon-reports      { color: #4CAF50; }
+        .icon-room-report  { color: #2196F3; }
+        .icon-complaints   { color: #FF5722; }
+        .icon-matrons      { color: #9C27B0; }
+        .icon-payments     { color: #FFC107; }
+        .icon-generate     { color: #e6af2e; }
+
+        /* LOGOUT */
+        .logout-fixed {
+            position: fixed;
+            top: 30px;
+            right: 40px;
+            background: #e74c3c;
+            color: white;
+            padding: 12px 38px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.1em;
+            box-shadow: 0 10px 30px rgba(231,76,60,0.4);
+            transition: 0.4s;
+            z-index: 999;
+        }
+        .logout-fixed:hover {
+            background: #c0392b;
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+
+    <a href="{{ url_for('logout') }}" class="logout-fixed">Logout</a>
+
+    <section class="hero" data-aos="fade-up">
+        <h1>WARDEN DASHBOARD</h1>
+    </section>
+
+    <div class="main-content">
+
+        <!-- COMPACT STATS -->
+        <div class="stats-grid">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-number">{{ db.rooms|length }}</div>
+                <div class="stat-label">Total Rooms</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number">{{ db.students|length }}</div>
+                <div class="stat-label">Registered Students</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-number">{{ db.applications|selectattr("status","equalto","Pending")|list|length }}</div>
+                <div class="stat-label">Pending Applications</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-number">{{ db.complaints|selectattr("status","equalto","Pending")|list|length }}</div>
+                <div class="stat-label">Pending Complaints</div>
+            </div>
+        </div>
+
+        <!-- MODULES — UPDATED AS PER YOUR REQUEST -->
+        <div class="modules-grid">
+
+            <!-- STUDENT REPORTS (was Room Applications) -->
+            <a href="{{ url_for('warden_students') }}" class="module-card" data-aos="fade-right" data-aos-delay="100">
+                <div class="module-icon icon-reports"><i class='bx bxs-report'></i></div>
+                <div class="module-content">
+                    <h3>Student Reports</h3>
+                    <p>View all student details and application history</p>
+                </div>
+            </a>
+
+            <!-- ROOM REPORT (was Manage Rooms) -->
+            <a href="{{ url_for('warden_rooms') }}" class="module-card" data-aos="fade-right" data-aos-delay="200">
+                <div class="module-icon icon-room-report"><i class='bx bxs-building-house'></i></div>
+                <div class="module-content">
+                    <h3>Room Report</h3>
+                    <p>Complete overview of room allocation and occupancy</p>
+                </div>
+            </a>
+
+            <!-- STUDENT COMPLAINTS -->
+            <a href="{{ url_for('warden_complaints') }}" class="module-card" data-aos="fade-left" data-aos-delay="100">
+                <div class="module-icon icon-complaints"><i class='bx bxs-message-rounded-dots'></i></div>
+                <div class="module-content">
+                    <h3>Student Complaints</h3>
+                    <p>View and respond to student issues instantly</p>
+                </div>
+            </a>
+
+            <!-- MANAGE MATRONS -->
+            <a href="{{ url_for('warden_matrons') }}" class="module-card" data-aos="fade-left" data-aos-delay="200">
+                <div class="module-icon icon-matrons"><i class='bx bxs-group'></i></div>
+                <div class="module-content">
+                    <h3>Manage Matrons</h3>
+                    <p>Add, edit, or remove matron accounts</p>
+                </div>
+            </a>
+
+            <!-- PAYMENT RECORDS -->
+            <a href="{{ url_for('warden_payments') }}" class="module-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="module-icon icon-payments"><i class='bx bxs-wallet'></i></div>
+                <div class="module-content">
+                    <h3>Payment Records</h3>
+                    <p>Track rent collection and financial overview</p>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: true });
+    </script>
+</body>
+</html>

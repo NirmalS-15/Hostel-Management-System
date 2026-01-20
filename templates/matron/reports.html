@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Reports & Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: linear-gradient(135deg, #0d6e71, #ff6b35); 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 60px auto; 
+            background: white; 
+            padding: 50px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3); 
+        }
+        h1 { 
+            color: #0d6e71; 
+            text-align: center; 
+            font-size: 2.8em; 
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 1.3em;
+            margin-bottom: 50px;
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin: 40px 0;
+        }
+        .report-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s;
+            border: 2px solid transparent;
+        }
+        .report-card:hover {
+            transform: translateY(-15px);
+            border-color: #0d6e71;
+            box-shadow: 0 25px 50px rgba(13,110,113,0.2);
+        }
+        .report-card i {
+            font-size: 4em;
+            color: #0d6e71;
+            margin-bottom: 20px;
+        }
+        .report-card h3 {
+            color: #0d6e71;
+            font-size: 1.7em;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        .report-card p {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .btn {
+            background: #0d6e71;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #09595c;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(13,110,113,0.4);
+        }
+
+        /* CHAT WITH WARDEN - REMOVED */
+        /* Removed chat card styles to hide the Chat with Warden option */
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 60px;
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-decoration: none;
+        }
+        .back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generate Reports & Tools</h1>
+        <p class="subtitle">Matron Control Panel — Quick Access to All Reports</p>
+
+        <div class="report-grid">
+
+            <!-- ROOMS REPORT -->
+            <div class="report-card">
+                <i class='bx bxs-building-house'></i>
+                <h3>Rooms Report</h3>
+                <p>View all rooms with current occupancy status</p>
+                <a href="{{ url_for('matron_rooms') }}" class="btn">Open Rooms</a>
+            </div>
+
+            <!-- STUDENTS LIST -->
+            <div class="report-card">
+                <i class='bx bxs-group'></i>
+                <h3>All Students</h3>
+                <p>Complete list of registered hostel students</p>
+                <a href="{{ url_for('matron_students_list') }}" class="btn">View Students</a>
+            </div>
+
+            <!-- COMPLAINTS REPORT -->
+            <div class="report-card">
+                <i class='bx bxs-message-rounded-dots'></i>
+                <h3>Complaints Report</h3>
+                <p>View all student complaints and replies</p>
+                <a href="{{ url_for('matron_complaints') }}" class="btn">Open Complaints</a>
+            </div>
+
+            <!-- PAYMENT REPORT -->
+            <div class="report-card">
+                <i class='bx bxs-wallet'></i>
+                <h3>Payment Report</h3>
+                <p>See rent payment status for all students</p>
+                <a href="{{ url_for('matron_payments') }}" class="btn">View Payments</a>
+            </div>
+
+            <!-- Chat with Warden option removed -->
+
+        </div>
+
+        <a href="{{ url_for('matron_dashboard') }}" class="back">Back to Dashboard</a>
+    </div>
+</body>
+</html>

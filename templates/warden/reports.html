@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Reports - Warden</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary: #0f4c5c;
+            --accent: #e6af2e;
+            --dark: #1a1a2e;
+            --green: #27ae60;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #16213e);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .header {
+            background: var(--primary);
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 3em;
+            letter-spacing: 2px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.6);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .report-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            border-left: 6px solid var(--accent);
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .report-card:hover {
+            transform: translateY(-15px);
+            background: rgba(255,255,255,0.12);
+            box-shadow: 0 25px 60px rgba(230,175,46,0.3);
+        }
+
+        .report-icon {
+            font-size: 4.5em;
+            color: var(--accent);
+            margin-bottom: 25px;
+        }
+
+        .report-card h3 {
+            font-size: 2em;
+            color: var(--accent);
+            margin: 20px 0;
+            font-weight: 700;
+        }
+
+        .report-card p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn-download {
+            background: var(--green);
+            color: white;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.4s;
+            box-shadow: 0 8px 25px rgba(39,174,96,0.4);
+        }
+        .btn-download:hover {
+            background: #219653;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(39,174,96,0.5);
+        }
+        .btn-download i {
+            font-size: 1.4em;
+        }
+
+        .back {
+            text-align: center;
+            margin: 80px 0 40px;
+        }
+        .back a {
+            display: inline-block;
+            background: transparent;
+            color: var(--accent);
+            padding: 15px 50px;
+            border: 3px solid var(--accent);
+            border-radius: 50px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+        .back a:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(230,175,46,0.4);
+        }
+
+        /* Flash messages */
+        .flash-area { margin-bottom: 20px; }
+        .flash { padding: 15px 20px; border-radius: 8px; font-weight: 600; margin-bottom: 12px; }
+        .flash.success { background: #27ae60; color: white; }
+        .flash.danger { background: #e74c3c; color: white; }
+        .flash.info { background: #3498db; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Generate Reports</h1>
+    </div>
+
+    <div class="container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-area">
+                    {% for category, msg in messages %}
+                        <div class="flash {{ category }}">{{ msg }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="report-removed" style="text-align:center; padding:60px 30px;">
+            <h2 style="color:var(--accent)">Reports module removed</h2>
+            <p style="font-size:1.2em; opacity:0.9">The reports generation functionality has been removed from this installation. You can return to the <a href="{{ url_for('warden_dashboard') }}">dashboard</a>.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pay Rent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #0d6e71, #ff6b35); padding: 20px; min-height: 100vh; }
+        .container { max-width: 600px; margin: 40px auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); text-align: center; }
+        h1 { color: #0d6e71; }
+        .amount { font-size: 4em; font-weight: bold; color: #0d6e71; margin: 30px 0; }
+        .month { font-size: 1.5em; color: #555; margin: 20px 0; }
+        button { background: #0d6e71; color: white; padding: 18px 50px; border: none; border-radius: 50px; font-size: 1.3em; cursor: pointer; }
+        button:hover { background: #095a5a; }
+        .back { display: block; margin-top: 30px; color: #d32f2f; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pay Your Rent</h1>
+        <div class="amount">₹500</div>
+        <div class="month">For {{ current_month }}</div>
+        <p>Room: <strong>{{ student.room }}</strong></p>
+        
+        <form method="POST">
+            <button type="submit">Pay Now</button>
+        </form>
+        
+        <a href="{{ url_for('student_home') }}" class="back">Back to Home</a>
+    </div>
+</body>
+</html>

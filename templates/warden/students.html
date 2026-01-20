@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Reports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary: #0f4c5c;
+            --accent: #e6af2e;
+            --dark: #1a1a2e;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #16213e);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .header {
+            background: var(--primary);
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 3em;
+            letter-spacing: 2px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.6);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+        .section h2 {
+            color: var(--accent);
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        th {
+            background: var(--primary);
+            padding: 20px;
+            text-align: left;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            vertical-align: middle;
+        }
+        tr:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .room {
+            font-weight: bold;
+            color: var(--accent);
+        }
+        .vacated {
+            background: rgba(231,76,60,0.15);
+            opacity: 0.8;
+        }
+        .vacated td {
+            color: #ff9999;
+            font-style: italic;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 80px;
+            font-size: 1.6em;
+            opacity: 0.7;
+        }
+
+        .back {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+        .back a {
+            display: inline-block;
+            background: transparent;
+            color: var(--accent);
+            padding: 15px 50px;
+            border: 3px solid var(--accent);
+            border-radius: 50px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+        .back a:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(230,175,46,0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Student Reports</h1>
+    </div>
+
+    <div class="container">
+
+        <!-- CURRENTLY STAYING STUDENTS -->
+        <div class="section">
+            <h2>Currently Staying Students ({{ db.students|length }})</h2>
+            {% if db.students %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Class</th>
+                        <th>Room No.</th>
+                        <th>Applied On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in db.students %}
+                    {% set app = db.applications|selectattr("student_id", "equalto", student.id)|first %}
+                    <tr {% if not student.room %}class="vacated"{% endif %}>
+                        <td><strong>{{ student.name }}</strong></td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ app.department|default('N/A') if app else 'N/A' }}</td>
+                        <td>{{ app.class|default('N/A') if app else 'N/A' }}</td>
+                        <td class="room">{{ student.room|default('Not Allocated') }}</td>
+                        <td>{{ app.applied_on|default('N/A') if app else 'N/A' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="no-data">No students registered yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- VACATED STUDENTS -->
+        <div class="section">
+            <h2>Vacated Students</h2>
+            {% set vacated = db.vacate_requests|selectattr("status", "equalto", "Approved")|list %}
+            {% if vacated %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Previous Room</th>
+                        <th>Reason</th>
+                        <th>Vacated On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in vacated %}
+                    {% set student = db.students|selectattr("id", "equalto", req.student_id)|first %}
+                    <tr class="vacated">
+                        <td><strong>{{ student.name if student else 'Unknown Student' }}</strong></td>
+                        <td>{{ req.room_no }}</td>
+                        <td>{{ req.reason }}</td>
+                        <td>{{ req.requested_on }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="no-data">No students have vacated yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="back">
+            <a href="{{ url_for('warden_dashboard') }}">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

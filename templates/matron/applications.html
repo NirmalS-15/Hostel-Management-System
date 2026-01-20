@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Room Applications</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: linear-gradient(135deg, #0d6e71, #ff6b35); 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 1300px; 
+            margin: 60px auto; 
+            background: white; 
+            padding: 50px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3); 
+        }
+        h1 { 
+            color: #0d6e71; 
+            text-align: center; 
+            font-size: 2.8em; 
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 1.3em;
+            margin-bottom: 50px;
+        }
+
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 35px;
+        }
+
+        .app-card {
+            background: #f8f9fa;
+            border-radius: 18px;
+            padding: 35px;
+            border-left: 6px solid #0d6e71;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s;
+        }
+        .app-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(13,110,113,0.25);
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .app-name {
+            font-size: 1.9em;
+            font-weight: 700;
+            color: #0d6e71;
+        }
+        .status {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+        .pending   { background:#fff3cd; color:#d97706; border:1px solid #f39c12; }
+        .approved  { background:#d4edda; color:#155724; border:1px solid #28a745; }
+        .rejected  { background:#f8d7da; color:#721c24; border:1px solid #dc3545; }
+
+        .detail {
+            margin: 14px 0;
+            font-size: 1.25em;
+            color: #333;
+        }
+        .detail strong {
+            color: #0d6e71;
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: 0.3s;
+        }
+        .btn-view    { background:#2196F3; color:white; }
+        .btn-approve { background:#28a745; color:white; }
+        .btn-reject  { background:#dc3545; color:white; }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 100px;
+            font-size: 1.8em;
+            color: #666;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 60px;
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-decoration: none;
+        }
+        .back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Room Applications</h1>
+        <p class="subtitle">Review and approve student accommodation requests</p>
+
+        {% if applications %}
+        <div class="applications-grid">
+            {% for app in applications %}
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-name">{{ app.name }}</div>
+                    <div class="status {{ 'pending' if app.status == 'Pending' else 'approved' if app.status == 'Approved' else 'rejected' }}">
+                        {{ app.status }}
+                    </div>
+                </div>
+
+                <div class="detail"><strong>Email:</strong> {{ app.email }}</div>
+                <div class="detail"><strong>Department:</strong> {{ app.department }}</div>
+                <div class="detail"><strong>Class:</strong> {{ app.class }}</div>
+                <div class="detail"><strong>Contact:</strong> {{ app.student_contact }}</div>
+                <div class="detail"><strong>Guardian:</strong> {{ app.guardian_name }}</div>
+                <div class="detail"><strong>Applied On:</strong> {{ app.applied_on }}</div>
+
+                <div class="actions">
+                    <a href="{{ url_for('matron_view_application', app_index=loop.index0) }}" class="btn btn-view">
+                        View Full Form
+                    </a>
+
+                    {% if app.status == 'Pending' %}
+                    <a href="{{ url_for('matron_approve_application', app_index=loop.index0) }}" class="btn btn-approve">
+                        Approve
+                    </a>
+                    <a href="{{ url_for('matron_reject_application', app_index=loop.index0) }}" class="btn btn-reject">
+                        Reject
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-data">No room applications pending</p>
+        {% endif %}
+
+        <a href="{{ url_for('matron_dashboard') }}" class="back">Back to Dashboard</a>
+    </div>
+</body>
+</html>

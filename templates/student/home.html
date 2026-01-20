@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Hostel - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0d6e71, #ff6b35);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        .header {
+            background: linear-gradient(135deg, #0d6e71, #095a5a);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .room-no {
+            font-size: 4em;
+            font-weight: 700;
+            margin: 10px 0;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .welcome {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+        .rent-status {
+            background: {{ 'linear-gradient(135deg, #4caf50, #45a049)' if rent_paid else 'linear-gradient(135deg, #ff9800, #f57c00)' }};
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 0 40px 30px;
+            border-radius: 15px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 0 40px 40px;
+        }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+        .card {
+            background: #f8f9fa;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .card i {
+            font-size: 3.5em;
+            color: #0d6e71;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            color: #0d6e71;
+            margin: 15px 0 10px;
+            font-size: 1.5em;
+        }
+        .card p {
+            color: #555;
+            font-size: 1.1em;
+        }
+        .logout {
+            display: block;
+            text-align: center;
+            padding: 20px;
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="welcome">Welcome back, {{ student.name }}!</h1>
+            <div class="room-no">Room {{ student.room }}</div>
+        </div>
+
+        <div class="rent-status">
+            {% if rent_paid %}
+                Rent Paid for {{ current_month }}
+            {% else %}
+                Rent Pending for {{ current_month }} (₹500)
+            {% endif %}
+        </div>
+
+        <div class="grid">
+            <a href="{{ url_for('pay_rent') }}" class="card">
+                <i class='bx bxs-wallet'></i>
+                <h3>Pay Rent</h3>
+                <p>Pay ₹500 monthly rent</p>
+            </a>
+
+            <a href="{{ url_for('payment_history') }}" class="card">
+                <i class='bx bx-history'></i>
+                <h3>Payment History</h3>
+                <p>View all your payments</p>
+            </a>
+
+            <a href="{{ url_for('add_complaint') }}" class="card">
+                <i class='bx bxs-message-rounded-error'></i>
+                <h3>Add Complaint</h3>
+                <p>Report any issue to warden</p>
+            </a>
+            <a href="{{ url_for('view_complaints') }}" class="card">
+    <i class='bx bxs-message-rounded-dots'></i>
+    <h3>My Complaints</h3>
+    <p>View warden replies</p>
+</a>
+            <a href="{{ url_for('student_vacate_request') }}" class="card">
+    <i class='bx bxs-door-open'></i>
+    <h3>Vacate Room Request</h3>
+    <p>Submit request to leave your current room</p>
+</a>
+      <a href="{{ url_for('hostel_rules') }}" class="card">
+                <i class='bx bxs-book'></i>
+                <h3>Hostel Rules</h3>
+                <p>Read hostel guidelines</p>
+            </a>
+        </div>
+
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
+</body>
+</html>

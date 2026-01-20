@@ -1,0 +1,7 @@
+{% extends "includes/header.html" %}
+{% block content %}
+<h2>Student Dashboard</h2>
+<p>Hello, <strong>{{ user.name }}</strong>!</p>
+<p>Room: 101</p>
+<a href="{{ url_for('logout') }}" class="btn-secondary">Logout</a>
+{% endblock %}

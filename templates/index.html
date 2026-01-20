@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container hero-content" data-aos="fade-up">
+            <h1>Hostel Management System</h1>
+            <p class="tagline">Smart • Secure • Seamless Living</p>
+            <p class="description">
+                A modern, role-based platform that simplifies hostel operations for 
+                <strong>Wardens</strong>, <strong>Matrons</strong>, and <strong>Students</strong>.
+                Manage rooms, leaves, complaints, and notices — all in one place.
+            </p>
+            <div class="hero-actions">
+                <a href="{{ url_for('student_register') }}" class="btn-primary">New Student Registration</a>
+                <a href="{{ url_for('login') }}" class="btn-primary" style="margin-left: 15px; background: #0d6e71;">
+                    Login (Warden / Matron / Student)
+                </a>
+            </div>
+        </div>
+        <div class="scroll-hint"><i class='bx bx-mouse'></i></div>
+    </section>
+
+    <!-- FEATURES (ONLY 3 ITEMS) -->
+    <section class="features">
+        <div class="container">
+            <h2 data-aos="fade-up">Why Choose Our System?</h2>
+            <div class="features-grid">
+
+                <!-- 1. Comfortable Rooms -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon-circle rooms">
+                        <i class='bx bxs-bed'></i>
+                    </div>
+                    <h3>Comfortable Rooms</h3>
+                    <p>Live room allocation, drag & drop booking, auto-assign.</p>
+                </div>
+
+                <!-- 2. 24/7 Security -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon-circle security">
+                        <i class='bx bxs-shield-alt-2'></i>
+                    </div>
+                    <h3>24/7 Security</h3>
+                    <p>Role-based access, secure login, encrypted data.</p>
+                </div>
+
+                <!-- 3. Instant Support -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="icon-circle support">
+                        <i class='bx bxs-chat'></i>
+                    </div>
+                    <h3>Instant Support</h3>
+                    <p>Raise complaints, track status, get notified.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK ACCESS -->
+    <section class="quick-access">
+        <div class="container">
+            <h2 data-aos="fade-up">Quick Access</h2>
+            <div class="login-grid">
+                <div class="login-card" data-aos="zoom-in" data-aos-delay="100">
+                    <i class='bx bxs-user-badge icon warden'></i>
+                    <h3>Warden</h3>
+                    <p>Full control panel</p>
+                    <a href="{{ url_for('login') }}" class="btn-secondary">Login</a>
+                </div>
+                <div class="login-card" data-aos="zoom-in" data-aos-delay="200">
+                    <i class='bx bxs-user-voice icon matron'></i>
+                    <h3>Matron</h3>
+                    <p>Daily operations</p>
+                    <a href="{{ url_for('login') }}" class="btn-secondary">Login</a>
+                </div>
+                <div class="login-card" data-aos="zoom-in" data-aos-delay="300">
+                    <i class='bx bxs-graduation icon student'></i>
+                    <h3>Student</h3>
+                    <p>Personal portal</p>
+                    <a href="{{ url_for('student_register') }}" class="btn-secondary">Register / Login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Hostel Management System • Built with Flask & Precision</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 100 });
+    </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Records</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: linear-gradient(135deg, #0d6e71, #ff6b35); 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 60px auto; 
+            background: white; 
+            padding: 50px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3); 
+        }
+        h1 { 
+            color: #0d6e71; 
+            text-align: center; 
+            font-size: 2.8em; 
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+        }
+
+        .total {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 3px solid #f39c12;
+            color: #d97706;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(243,156,18,0.2);
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            background: #f8f9fa;
+            border-radius: 18px; 
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        th { 
+            background: #0d6e71; 
+            color: white; 
+            padding: 22px; 
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        td { 
+            padding: 20px; 
+            text-align: left; 
+            border-bottom: 1px solid #eee; 
+            color: #333;
+        }
+        tr:hover { 
+            background: #f0f8ff; 
+        }
+
+        .amount {
+            color: #0d6e71;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .status-paid {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 100px 20px;
+            font-size: 1.8em;
+            color: #666;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 60px;
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-decoration: none;
+        }
+        .back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Records</h1>
+        <p class="subtitle">Monthly rent collection overview</p>
+
+        <div class="total">
+            Total Earnings: ₹{{ db.payments|length * 500 }} 
+            <br><small style="font-size:0.6em; color:#d97706;">({{ db.payments|length }} payments recorded)</small>
+        </div>
+
+        {% if db.payments %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Room No.</th>
+                    <th>Month</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Paid On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in db.payments %}
+                <tr>
+                    <td><strong>{{ p.name }}</strong></td>
+                    <td>{{ p.room_no }}</td>
+                    <td>{{ p.month_year }}</td>
+                    <td class="amount">₹{{ p.amount }}</td>
+                    <td class="status-paid">{{ p.status }}</td>
+                    <td>{{ p.paid_on }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-data">No payments recorded yet</p>
+        {% endif %}
+
+        <a href="{{ url_for('matron_dashboard') }}" class="back">Back to Dashboard</a>
+    </div>
+</body>
+</html>
